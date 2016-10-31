@@ -7,6 +7,22 @@
 #include <time.h>
 
 
+char convert(int scale){
+  scale--;
+  if (scale == 0){
+    return '\0';
+  }
+  if (scale == 1){
+    return 'K';
+  }
+  if (scale == 2){
+    return 'M';
+  }
+  else{
+    return 'G';
+  }
+}
+
 
 void main(){
     printf("\n");
@@ -17,36 +33,19 @@ void main(){
     //printf("Size of file (bytes): %li\n", info.st_size);//printing size of file
     
     double out = 0;
-    char * convert(int scale){
-	scale--;
-	if (scale == 0){
-	    return "bytes";
-	}
-	if (scale == 1){
-	    return "kilobytes";
-	}
-	if (scale == 2){
-	    return "megabytes";
-	}
-	else{
-	    return "failure";
-	}
-    }
-
     int scale = 0;
     double compare = 1;
     while(info.st_size > compare){
 	compare *= 1024;
 	scale ++;
     }
-    printf("Size of file (%s): %f\n", convert(scale), info.st_size / compare * 1024);
+    printf("Size of file: %f %cB\n", info.st_size / compare * 1024, convert(scale));
 
 
     char * modes[] = {"---","--x","-w-","-wx","r--","r-x","rw-","rwx"};
     int other = info.st_mode % 8;
     int group = (info.st_mode / 8) % 8;
     int owner = (info.st_mode / 64) % 8;
-    printf("File mode: %o\n", info.st_mode);//printing file permissions
     printf("File mode: %s%s%s\n", modes[owner], modes[group], modes[other]);
     
 
