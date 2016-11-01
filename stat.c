@@ -26,9 +26,11 @@ char convert(int scale){
 void main(){
     printf("\n");
 
+    char *filename = "stat.c";
     struct stat info;
-    stat("stat.c", &info);//obtaining information about file
-
+    stat(filename, &info);//obtaining information about file
+    printf("Name of file: %s\n", filename);
+    
     double out = 0;
     int scale = 0;
     double compare = 1;
