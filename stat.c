@@ -7,13 +7,32 @@
 #include <time.h>
 #include <math.h>
 
+//returns prefix to B
+char convert(int scale){
+  scale--;
+  if (scale == 0){
+    return '\0';
+  }
+  if (scale == 1){
+    return 'K';
+  }
+  if (scale == 2){
+    return 'M';
+  }
+  else{
+    return 'G';
+  }
+}
+
 void main(){
     printf("\n");
-    
+
+    char *filename = "b.md";
     struct stat info;
     stat("b.md", &info);//obtaining information about file
+    stat(filename, &info);//obtaining information about file
+    printf("Name of file: %s\n", filename);
     
-    printf("Size of file (bytes): %li\n", info.st_size);//printing size of file
     double out = 0;
 
     //scale conversion
@@ -39,8 +58,8 @@ void main(){
 	compare *= 1024;
 	scale ++;
     }
-    printf("Size of file (%s): %f\n", convert(scale), info.st_size / compare * 1024);
-
+    //printf("Size of file (bytes): %li\n", info.st_size);//printing size of file
+    printf("Size of file: %.1f %sB\n", info.st_size / compare * 1024, convert(scale)); //%.1f (1 decimal place)
     
     //file mode conversion
     char out2[10] = {0};
@@ -59,8 +78,16 @@ void main(){
     
     printf("File mode: %o\n", info.st_mode);//printing file permissions
     printf("File mode alternate: %s\n", out2);
-    
-    char time[100]; 
+
+    char * modes[] = {"---","--x","-w-","-wx","r--","r-x","rw-","rwx"};
+    int other = info.st_mode % 8;
+    int group = (info.st_mode / 8) % 8;
+    int owner = (info.st_mode / 64) % 8;
+    //printf("File mode: %o\n", info.st_mode);
+    printf("File mode alternate2: %s%s%s\n", modes[owner], modes[group], modes[other]);
+
+
+    char time[100];
     strftime(time, 100, "%a %b %d %T %Y", localtime(&(info.st_ctime)));//calculating time
     //note: can use gmtime() instead of localtime() to avoid locaion discrepancies
     printf("Time of last access: %s\n", time);//printing time

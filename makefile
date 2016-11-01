@@ -5,5 +5,5 @@ run: stat
 	./stat
 
 clean:
-	rm *~
-	rm stat
+	-rm *~
+	-rm stat
