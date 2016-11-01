@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <time.h>
 
-
+//returns prefix to B
 char convert(int scale){
   scale--;
   if (scale == 0){
@@ -23,7 +23,6 @@ char convert(int scale){
   }
 }
 
-
 void main(){
     printf("\n");
 
@@ -38,7 +37,7 @@ void main(){
 	scale ++;
     }
     //printf("Size of file (bytes): %li\n", info.st_size);//printing size of file
-    printf("Size of file: %.1f %cB\n", info.st_size / compare * 1024, convert(scale));
+    printf("Size of file: %.1f %cB\n", info.st_size / compare * 1024, convert(scale)); //%.1f (1 decimal place)
 
 
     char * modes[] = {"---","--x","-w-","-wx","r--","r-x","rw-","rwx"};
